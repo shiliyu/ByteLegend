@@ -14,4 +14,8 @@ interface Sprite : GameObject {
     fun outOfCanvas(): Boolean = true
 
     fun draw(canvas: CanvasRenderingContext2D)
+
+    fun toJsObject(): dynamic {
+        TODO("!!!")
+    }
 }

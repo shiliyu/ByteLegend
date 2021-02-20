@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Offscreen Commit</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            line-height: 0px;
+            overflow: hidden;
+            background-color: #9e9e9e;
+        }
+
+        canvas {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+
+</head>
+<body>
+<canvas id="offscreen" width="3200" height="2400"></canvas>
+<script>
+    let offscreen = document.getElementById("offscreen").transferControlToOffscreen()
+    let renderWorker = new Worker("./worker.js")
+    renderWorker.postMessage({name: 'UpdateCanvas', payload: offscreen}, [offscreen])
+    renderWorker.onmessage = function (message) {
+        if (message.data.name === "RequestSprites") {
+            renderSprites()
+        } else if (message.data.name === "UpdateFpsCounter") {
+            console.log(`FPS: ${message.data.payload}`)
+        }
+    }
+
+    renderSprites()
+
+    function renderSprites() {
+        let sprites = []
+        let width = 100, height = 60
+        for (let y = 0; y < height; ++y) {
+            for (let x = 0; x < width; ++x) {
+                sprites.push({
+                    imageId: 'tileset',
+                    sx: 32,
+                    sy: 0,
+                    sw: 32,
+                    sh: 32,
+                    dx: x * 32,
+                    dy: y * 32,
+                    dw: 32,
+                    dh: 32,
+                })
+            }
+        }
+        // val sprites = scene.objects.getDrawableSprites().toJson()
+        renderWorker.postMessage({name: 'RenderSprites', payload: JSON.stringify(sprites)})
+    }
+
+    function transferImageBitmap() {
+        window.createImageBitmap(document.getElementById("tileset")).then((bitmap) => {
+            renderWorker.postMessage({name: 'AddImageBitmap', payload: {id: "tileset", bitmap: bitmap}}, [bitmap])
+        })
+    }
+</script>
+
+<img id="tileset" src="./tileset.png" onload="transferImageBitmap()" style="display:none">
+</body>
+</html>

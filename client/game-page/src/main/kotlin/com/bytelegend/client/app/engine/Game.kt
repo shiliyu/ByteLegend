@@ -57,6 +57,7 @@ private fun determineLocale(serverSideData: ServerSideData): Locale {
     }
 }
 
+
 class Game(
     override val di: DI
 ) : DIAware, GameRuntime, GameContainerSizeAware {
@@ -94,10 +95,10 @@ class Game(
     val resourceLoader: ResourceLoader by di.instance()
 
     val gameControl: GameControl by di.instance()
+    val renderer: Renderer = determineRenderer()
 
-    fun start() {
+    fun start(initScene: GameScene) {
         gameControl.start()
-        animate()
         window.setInterval(
             {
                 eventBus.emit(GAME_CLOCK_10HZ_EVENT, null)
@@ -110,11 +111,12 @@ class Game(
             },
             1000 / GAME_CLOCK_50HZ
         )
+        renderer.start(initScene)
     }
 
     private fun animate() {
-        sceneContainer.activeScene?.canvasState?.onAnimate(lastAnimationFrameTime)
-        eventBus.emit(GAME_ANIMATION_EVENT, lastAnimationFrameTime)
+//        sceneContainer.activeScene?.canvasState?.onAnimate(lastAnimationFrameTime)
+//        eventBus.emit(GAME_ANIMATION_EVENT, lastAnimationFrameTime)
         lastAnimationFrameTime = Timestamp.now()
         window.requestAnimationFrame { animate() }
     }
@@ -128,4 +130,12 @@ class Game(
     }
 
     fun resolve(path: String) = "${RRBD}$path"
+
+    private fun determineRenderer(): Renderer {
+        return if (window.asDynamic().renderWorker == null) {
+            DirectRenderer()
+        } else {
+            OfflineCanvasRenderer(this, window.asDynamic().renderWorker)
+        }
+    }
 }

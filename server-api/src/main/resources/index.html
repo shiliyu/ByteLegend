@@ -10,9 +10,17 @@
 <body>
 <div id="app"></div>
 <script>
+    if (HTMLCanvasElement.prototype.transferControlToOffscreen) {
+       window.renderWorker = new Worker("{RRBD}/lib/worker.js")
+        // alert('support for transferring control of an offscreen canvas exists');
+    } else {
+        // alert('support for transferring control of an offscreen canvas does NOT exist');
+    }
     window.serverSideData = '{serverSideData}'
 </script>
 <script src="{RRBD}/lib/astar/astar.js"></script>
 <script src="{RRBD}/js/game-page.js"></script>
+<script>
+</script>
 </body>
 </html>

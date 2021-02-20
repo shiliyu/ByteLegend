@@ -7,9 +7,6 @@ import com.bytelegend.app.shared.PixelCoordinate
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
 
-// Event emitted upon window.requestAnimationFrame, usually 60~120 Hz
-const val GAME_ANIMATION_EVENT = "game.animation"
-
 /**
  * Clock event for game logic to update. It's usually less frequent than animation event, because:
  * - Most game logic doesn't need 60Hz, this is a waste of CPU.

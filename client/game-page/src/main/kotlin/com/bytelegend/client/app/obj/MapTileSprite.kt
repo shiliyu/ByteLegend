@@ -10,6 +10,7 @@ import com.bytelegend.app.shared.RawGameMapTileLayer
 import com.bytelegend.app.shared.RawStaticImageLayer
 import com.bytelegend.app.shared.RawTileAnimationFrame
 import com.bytelegend.app.shared.objects.GameObjectRole
+import com.bytelegend.client.app.engine.mapTilesetResourceId
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLImageElement
 
@@ -55,6 +56,17 @@ class StaticImageBlockSprite(
             dx.toDouble(), dy.toDouble(), tileWidth.toDouble(), tileHeight.toDouble()
         )
     }
+
+    override fun toJsObject(): dynamic {
+        val imageId = mapTilesetResourceId(gameScene.map.id)
+        val sx = imageLayer.coordinate.x * tileWidth
+        val sy = imageLayer.coordinate.y * tileHeight
+        val dx = pixelCoordinate.x - canvasState.getCanvasCoordinateInMap().x
+        val dy = pixelCoordinate.y - canvasState.getCanvasCoordinateInMap().y
+        val tileWidth = this.tileWidth
+        val tileHeight = this.tileHeight
+        return js("{imageId:imageId,sx:sx,sy:sy,sw:tileWidth,sh:tileHeight,dx:dx,dy:dy,dw:tileWidth,dh:tileHeight}")
+    }
 }
 
 class AnimationSprite(
@@ -91,6 +103,18 @@ class AnimationSprite(
             sx.toDouble(), sy.toDouble(), tileWidth.toDouble(), tileHeight.toDouble(),
             dx.toDouble(), dy.toDouble(), tileWidth.toDouble(), tileHeight.toDouble()
         )
+    }
+
+    override fun toJsObject(): dynamic {
+        val imageId = mapTilesetResourceId(gameScene.map.id)
+        val frame = getCurrentFrame(frames, duration)
+        val sx = frame.coordinate.x * tileWidth
+        val sy = frame.coordinate.y * tileHeight
+        val dx = pixelCoordinate.x - canvasState.getCanvasCoordinateInMap().x
+        val dy = pixelCoordinate.y - canvasState.getCanvasCoordinateInMap().y
+        val tileWidth = this.tileWidth
+        val tileHeight = this.tileHeight
+        return js("{imageId:imageId,sx:sx,sy:sy,sw:tileWidth,sh:tileHeight,dx:dx,dy:dy,dw:tileWidth,dh:tileHeight}")
     }
 
     private fun getCurrentFrame(frames: Array<RawTileAnimationFrame>, duration: Int): RawTileAnimationFrame {

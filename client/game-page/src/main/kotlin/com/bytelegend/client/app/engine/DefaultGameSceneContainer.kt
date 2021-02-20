@@ -13,6 +13,7 @@ import com.bytelegend.app.client.api.TextAjaxResource
 import com.bytelegend.app.shared.PixelSize
 import com.bytelegend.app.shared.RawGameMap
 import com.bytelegend.app.shared.i18n.Locale
+import com.bytelegend.client.app.page.game
 import com.bytelegend.client.app.ui.SCENE_SWITCH_START_EVENT
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -96,6 +97,8 @@ class DefaultGameSceneContainer(
         val tileset = resourceLoader.getLoadedResourceOrNull<ImageResourceData>("$mapId-tileset") ?: return
         val script = resourceLoader.getLoadedResourceOrNull<String>("$mapId-script") ?: return
         val i18nText = resourceLoader.getLoadedResourceOrNull<Map<String, String>>("$mapId-${locale.toLowerCase()}") ?: return
+
+        game.renderer.transferImageBitmap(tileset)
 
         i18nContainer.putAll(i18nText)
 

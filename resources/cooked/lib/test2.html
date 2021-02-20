@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Offscreen Commit</title>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            line-height: 0px;
+            overflow: hidden;
+            background-color: #9e9e9e;
+        }
+
+        canvas {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+
+</head>
+<body>
+<canvas id="offscreen" width="3200" height="2400"></canvas>
+<img id="tileset" src="./tileset.png" style="display:none">
+<script>
+    let context = document.getElementById("offscreen").getContext("2d")
+    let counter = 0
+    let offset = 0
+
+    renderSprites()
+    render()
+
+    function render() {
+        counter++
+
+        // context.save()
+        // context.translate(0, offset)
+        context.drawImage(document.getElementById("offscreen"), 0, offset, 3200, 2400, 0, offset + 5, 3200, 2400)
+        // context.restore()
+        offset += 5
+
+        context.clearRect(0, 0, 3200, offset)
+
+        requestAnimationFrame(render)
+    }
+
+    window.setInterval(function () {
+        console.log("fps: " + counter)
+        counter = 0
+    }, 1000)
+
+    //
+    // let renderWorker = new Worker("./worker.js")
+    // renderWorker.postMessage({name: 'UpdateCanvas', payload: offscreen}, [offscreen])
+    // renderWorker.onmessage = function (message) {
+    //     if (message.data.name === "RequestSprites") {
+    //         renderSprites()
+    //     } else if (message.data.name === "UpdateFpsCounter") {
+    //         console.log(`FPS: ${message.data.payload}`)
+    //     }
+    // }
+    //
+    // renderSprites()
+
+    function renderSprites() {
+        let sprites = []
+        let width = 100, height = 60
+        for (let y = 0; y < height; ++y) {
+            for (let x = 0; x < width; ++x) {
+                context.drawImage(document.getElementById("tileset"),
+                    32,
+                    0,
+                    32,
+                    32,
+                    x * 32,
+                    y * 32,
+                    32,
+                    32
+                )
+            }
+        }
+        // context.drawImage(document.getElementById("tileset"), )
+        // val sprites = scene.objects.getDrawableSprites().toJson()
+        // renderWorker.postMessage({name: 'RenderSprites', payload: JSON.stringify(sprites)})
+    }
+
+    function transferImageBitmap() {
+        window.createImageBitmap(document.getElementById("tileset")).then((bitmap) => {
+            renderWorker.postMessage({name: 'AddImageBitmap', payload: {id: "tileset", bitmap: bitmap}}, [bitmap])
+        })
+    }
+</script>
+
+</body>
+</html>

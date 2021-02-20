@@ -1,8 +1,6 @@
 package com.bytelegend.client.app.ui
 
-import com.bytelegend.app.client.api.Timestamp
-import com.bytelegend.client.app.engine.GAME_ANIMATION_EVENT
-import com.bytelegend.client.app.engine.GameAnimationEventListener
+import com.bytelegend.app.client.api.EventListener
 import kotlinx.css.zIndex
 import kotlinx.html.classes
 import kotlinx.html.id
@@ -18,24 +16,32 @@ interface FpsCounterState : RState {
     var fps: Int
 }
 
+const val UPDATE_FPS_EVENT = "update.fps"
+
 /**
  * Display current FPS. Update upon "window.animate" event.
  */
 class FpsCounter : GameUIComponent<FpsCounterProps, FpsCounterState>() {
-    // Don't update the FPS counter too frequently
-    private var lastComponentUpdateTime = Timestamp.now()
-    private var framesSinceLastComponentUpdate: Int = 0
-    private val fpsUpdateEventListener: GameAnimationEventListener = {
-        framesSinceLastComponentUpdate++
-        val now = Timestamp.now()
-        if (now - lastComponentUpdateTime > 500) {
-            val currentFps = (1000.0 * framesSinceLastComponentUpdate / (now - lastComponentUpdateTime)).toInt()
-            setState {
-                fps = currentFps
-            }
-            lastComponentUpdateTime = now
-            framesSinceLastComponentUpdate = 0
-        }
+//    // Don't update the FPS counter too frequently
+//    private var lastComponentUpdateTime = Timestamp.now()
+//    private var framesSinceLastComponentUpdate: Int = 0
+//    private val fpsUpdateEventListener: GameAnimationEventListener = {
+//        framesSinceLastComponentUpdate++
+//        val now = Timestamp.now()
+//        if (now - lastComponentUpdateTime > 500) {
+//            val currentFps = (1000.0 * framesSinceLastComponentUpdate / (now - lastComponentUpdateTime)).toInt()
+//            setState {
+//                fps = currentFps
+//            }
+//            lastComponentUpdateTime = now
+//            framesSinceLastComponentUpdate = 0
+//        }
+//    }
+
+    private val fpsUpdateEventListener: EventListener<Int> = {
+       setState {
+           fps = it
+       }
     }
 
     override fun FpsCounterState.init() {
@@ -44,12 +50,12 @@ class FpsCounter : GameUIComponent<FpsCounterProps, FpsCounterState>() {
 
     override fun componentDidMount() {
         super.componentDidMount()
-        props.game.eventBus.on(GAME_ANIMATION_EVENT, fpsUpdateEventListener)
+        props.game.eventBus.on(UPDATE_FPS_EVENT, fpsUpdateEventListener)
     }
 
     override fun componentWillUnmount() {
         super.componentWillUnmount()
-        props.game.eventBus.remove(GAME_ANIMATION_EVENT, fpsUpdateEventListener)
+        props.game.eventBus.remove(UPDATE_FPS_EVENT, fpsUpdateEventListener)
     }
 
     @Suppress("UnsafeCastFromDynamic")
@@ -62,7 +68,6 @@ class FpsCounter : GameUIComponent<FpsCounterProps, FpsCounterState>() {
             }
 
             +"${state.fps} fps"
-//            +"${((1000.0 * framesSinceLastComponentUpdate) / (TimeStamp.now() - lastComponentUpdateTime)).toInt()} fps"
         }
     }
 }

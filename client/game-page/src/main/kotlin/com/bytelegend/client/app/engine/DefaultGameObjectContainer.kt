@@ -94,14 +94,14 @@ class DefaultGameObjectContainer(
             }
         }
 
-        val sprites = getByRole<Sprite>(GameObjectRole.Sprite)
-
-        sprites.forEach {
-            if (!it.outOfCanvas()) {
-                indexes.add(it.layer)
-                layerToSprites.getOrPut(it.layer.toString()) { JSArrayBackedList() }.add(it)
-            }
-        }
+//        val sprites = getByRole<Sprite>(GameObjectRole.Sprite)
+//
+//        sprites.forEach {
+//            if (!it.outOfCanvas()) {
+//                indexes.add(it.layer)
+//                layerToSprites.getOrPut(it.layer.toString()) { JSArrayBackedList() }.add(it)
+//            }
+//        }
 
         val sorted = JSArrayBackedList<Int>(delegate = js("Array.from(indexes).sort(function(a, b){return a - b;})"))
         val ret = JSArrayBackedList<Sprite>()

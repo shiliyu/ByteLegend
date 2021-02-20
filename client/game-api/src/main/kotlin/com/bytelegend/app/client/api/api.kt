@@ -134,11 +134,6 @@ interface GameCanvasState : GameContainerSizeAware {
     fun moveTo(coordinate: PixelCoordinate)
 
     /**
-     * Upon window.requestAnimationFrame, update the state.
-     */
-    fun onAnimate(lastAnimationFrameTime: Timestamp)
-
-    /**
      * Does canvas cover the whole map?
      * If true, minimap and canvas border is not required.
      */

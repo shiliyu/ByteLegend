@@ -302,24 +302,24 @@ class MiniMapCanvasLayer : AbstractMapCanvas<MiniMapCanvasState>() {
     private val mapRatio: Ratio
         get() = Ratio(1.0 * miniMapWidth / mapPixelSize.width, 1.0 * miniMapHeight / mapPixelSize.height)
 
-    override fun onPaint(lastAnimationTime: Timestamp) {
-        minimizeAnimation(lastAnimationTime)
-
-        if (!isMaximized()) {
-            return
-        }
-
-        canvas.clearRect(0.0, 0.0, miniMapWidth.toDouble() + 1, miniMapHeight.toDouble() + 1)
-
-        drawRegions()
-        drawPathsToRegions()
-        drawRegionCenterPoints()
-
-        drawHeroAvatarOnMinimap()
-        drawViewportRect()
-
-        drawHoveredRegionName()
-    }
+//    override fun onPaint(lastAnimationTime: Timestamp) {
+//        minimizeAnimation(lastAnimationTime)
+//
+//        if (!isMaximized()) {
+//            return
+//        }
+//
+//        canvas.clearRect(0.0, 0.0, miniMapWidth.toDouble() + 1, miniMapHeight.toDouble() + 1)
+//
+//        drawRegions()
+//        drawPathsToRegions()
+//        drawRegionCenterPoints()
+//
+//        drawHeroAvatarOnMinimap()
+//        drawViewportRect()
+//
+//        drawHoveredRegionName()
+//    }
 
     private fun GridCoordinate.toMiniMapPixelCoordinate() = this * gameMap.tileSize * mapRatio
 
@@ -407,7 +407,7 @@ class MiniMapCanvasLayer : AbstractMapCanvas<MiniMapCanvasState>() {
     }
 
     private fun drawRegions() {
-        canvas.setLineDash(emptyArray())
+        canvas.setLineDash(emptyArray<Double>())
         canvas.disableShadow()
         canvas.lineWidth = 0.0
 

@@ -102,7 +102,7 @@ class GamePage : RComponent<GamePageProps, GamePageState>() {
                 obj.init()
             }
 
-            game.start()
+            game.start(newScene)
         }
         game.eventBus.on<Nothing>(GAME_UI_UPDATE_EVENT) {
             setState {}
@@ -185,7 +185,7 @@ class GamePage : RComponent<GamePageProps, GamePageState>() {
                     }
                     tileCursorWidget(attrs)
                     spriteNameWidget(attrs)
-                    miniMapCanvas(attrs)
+//                    miniMapCanvas(attrs)
                     mapCanvas(attrs)
 
                     menu(attrs)
