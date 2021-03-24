@@ -1,9 +1,7 @@
 package com.bytelegend.client.app.ui
 
 import com.bytelegend.app.shared.Direction
-import kotlinx.css.Display
 import kotlinx.css.Position
-import kotlinx.css.display
 import kotlinx.css.left
 import kotlinx.css.position
 import kotlinx.css.px

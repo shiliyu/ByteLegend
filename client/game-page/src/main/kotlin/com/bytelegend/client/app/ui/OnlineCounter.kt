@@ -1,7 +1,6 @@
 package com.bytelegend.client.app.ui
 
 import com.bytelegend.app.client.api.EventListener
-import com.bytelegend.app.shared.PixelCoordinate
 import com.bytelegend.app.shared.protocol.ONLINE_COUNTER_UPDATE_EVENT
 import com.bytelegend.client.app.page.GAME_INIT_DATA
 import kotlinext.js.jsObject
@@ -17,7 +16,6 @@ import react.dom.div
 import react.dom.jsStyle
 import react.dom.span
 import react.setState
-
 
 const val ANIMATION_DIV_ID = "counter-animation-div"
 
@@ -43,7 +41,7 @@ class OnlineCounter : GameUIComponent<OnlineCounterProps, OnlineCounterState>() 
      * Display animation for the updated value
      */
     private fun animate(targetValue: String) {
-        if (animating()) {
+        if (animating() || !gameControl.online) {
             return
         }
         val rect = span.getBoundingClientRect()
