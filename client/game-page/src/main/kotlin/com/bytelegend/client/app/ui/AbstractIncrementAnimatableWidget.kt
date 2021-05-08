@@ -55,7 +55,7 @@ abstract class AbstractIncrementAnimatableWidget<P : GameAwareProps, S : RState>
 
     private fun getIncrementAnimationDiv(event: NumberIncrementEvent): Node {
         val div = document.createElement("div")
-        div.appendChild(document.createTextNode("+${event.inc} "))
+        div.appendChild(document.createTextNode("+${event.inc}"))
         div.appendChild(
             document.createElement("div").unsafeCast<HTMLDivElement>().apply {
                 className = "$iconClassName inline-icon"

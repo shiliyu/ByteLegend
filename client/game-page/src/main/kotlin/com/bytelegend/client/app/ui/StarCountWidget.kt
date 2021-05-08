@@ -5,7 +5,6 @@ import kotlinx.html.classes
 import kotlinx.html.id
 import react.RState
 import react.dom.RDOMBuilder
-import react.dom.div
 import react.dom.span
 
 interface StarCountWidgetProps : GameProps
