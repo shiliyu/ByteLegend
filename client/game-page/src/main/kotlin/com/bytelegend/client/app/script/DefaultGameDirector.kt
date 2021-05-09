@@ -9,7 +9,6 @@ import com.bytelegend.app.client.api.ScriptsBuilder
 import com.bytelegend.app.client.api.SpeechBuilder
 import com.bytelegend.app.client.api.dsl.SuspendUnitFunction
 import com.bytelegend.app.client.api.dsl.UnitFunction
-import com.bytelegend.app.shared.BEGINNER_GUIDE_UNFINISHED_STATE
 import com.bytelegend.app.shared.Direction
 import com.bytelegend.app.shared.GridCoordinate
 import com.bytelegend.app.shared.PixelCoordinate
@@ -162,6 +161,18 @@ class DefaultGameDirector(
         scripts.add(BeginnerGuideScript())
     }
 
+    override fun addState(state: String) {
+        scripts.add(
+            RunSuspendFunctionScript {
+//                gameScene.states.putState(state, "1")
+            }
+        )
+    }
+
+    override fun removeItem(coffee: String) {
+        TODO("Not yet implemented")
+    }
+
     inner class BeginnerGuideScript : GameScript {
         lateinit var arrowGif: HTMLImageElement
         override fun start() {
@@ -175,7 +186,7 @@ class DefaultGameDirector(
         override fun stop() {
             respondToClick = false
             eventBus.emit(HIGHTLIGHT_MISSION_EVENT, null)
-            gameScene.states.removeState(BEGINNER_GUIDE_UNFINISHED_STATE)
+//            gameScene.states.removeState(BEGINNER_GUIDE_UNFINISHED_STATE)
             document.body?.removeChild(arrowGif)
         }
     }

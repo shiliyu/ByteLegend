@@ -38,13 +38,6 @@ interface ScriptsBuilder {
             this.arrow = arrow
         }
     }
-
-    /**
-     * Move then talk to an NPC
-     */
-    fun moveAndTalkTo() {
-    }
-
     /**
      * Play an animation on object with objectId, with frames and intervals.
      *
@@ -56,4 +49,6 @@ interface ScriptsBuilder {
     fun characterMove(characterId: String, destMapCoordinate: GridCoordinate, callback: UnitFunction = {})
     fun onComplete(action: UnitFunction)
     fun startBeginnerGuide()
+    fun addState(state: String)
+    fun removeItem(coffee: String)
 }

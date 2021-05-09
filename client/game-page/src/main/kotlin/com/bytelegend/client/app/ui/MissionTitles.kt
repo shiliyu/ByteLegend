@@ -2,7 +2,7 @@ package com.bytelegend.client.app.ui
 
 import com.bytelegend.app.client.api.EventBus
 import com.bytelegend.app.client.api.EventListener
-import com.bytelegend.app.shared.BEGINNER_GUIDE_UNFINISHED_STATE
+import com.bytelegend.app.shared.BEGINNER_GUIDE_FINISHED_STATE
 import com.bytelegend.app.shared.GridCoordinate
 import com.bytelegend.app.shared.PixelBlock
 import com.bytelegend.app.shared.math.outOfCanvas
@@ -57,7 +57,7 @@ class MissionTitles : GameUIComponent<MissionTitlesProps, MissionTitlesState>() 
         if (state.highlightedMissionIds != null) {
             state.highlightedMissionIds!!.map { activeScene.objects.getById<GameMission>(it) }
                 .forEach { renderOne(it) }
-        } else if (game.heroPlayer.isAnonymous || !game.activeScene.states.hasState(BEGINNER_GUIDE_UNFINISHED_STATE)) {
+        } else if (game.heroPlayer.states.containsKey(BEGINNER_GUIDE_FINISHED_STATE)) {
             // If not finished beginner guide, don't show the titles
             activeScene.objects.getByRole<GameMission>(GameObjectRole.Mission)
                 .filter { insideCanvas(it.gameMapMission) && it.gameMapMission.title.isNotBlank() }
