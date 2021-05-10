@@ -38,6 +38,7 @@ interface ScriptsBuilder {
             this.arrow = arrow
         }
     }
+
     /**
      * Play an animation on object with objectId, with frames and intervals.
      *
@@ -49,6 +50,8 @@ interface ScriptsBuilder {
     fun characterMove(characterId: String, destMapCoordinate: GridCoordinate, callback: UnitFunction = {})
     fun onComplete(action: UnitFunction)
     fun startBeginnerGuide()
-    fun addState(state: String)
-    fun removeItem(coffee: String)
+    fun putState(key: String, value: String = "1")
+    fun removeState(key: String)
+    fun removeItem(item: String)
+    fun addItem(item: String)
 }

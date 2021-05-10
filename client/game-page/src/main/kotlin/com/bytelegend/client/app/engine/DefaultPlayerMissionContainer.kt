@@ -15,10 +15,12 @@ import com.bytelegend.app.shared.protocol.MissionUpdateEventData
 import com.bytelegend.app.shared.protocol.STAR_UPDATE_EVENT
 import com.bytelegend.app.shared.protocol.StarUpdateEventData
 import com.bytelegend.client.app.script.DefaultGameDirector
+import com.bytelegend.client.app.script.STAR_BYTELEGEND_MISSION_ID
 import com.bytelegend.client.app.script.effect.starFlyEffect
 import com.bytelegend.client.app.ui.NumberIncrementEvent
 import com.bytelegend.client.app.ui.STAR_INCREMENT_EVENT
 import com.bytelegend.client.app.ui.determineRightSideBarCoordinateInGameContainerLeftTop
+import com.bytelegend.client.app.ui.menu.determineMenuCoordinateInGameContainer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
@@ -50,8 +52,13 @@ class DefaultPlayerMissionContainer(
             val mission = gameScene!!.objects.getById<GameMission>(eventData.missionId).gameMapMission
             val canvasState = gameScene!!.canvasState
             val endCoordinateInGameContainer: PixelCoordinate = canvasState.determineRightSideBarCoordinateInGameContainerLeftTop()
-            val startCoordinateInGameContainer: PixelCoordinate = mission.point * gameScene!!.map.tileSize -
-                canvasState.getCanvasCoordinateInMap() + canvasState.getCanvasCoordinateInGameContainer()
+            val startCoordinateInGameContainer: PixelCoordinate =
+                if (mission.id == STAR_BYTELEGEND_MISSION_ID)
+                // See MenuItem, from the GitHub menu icon
+                    canvasState.determineMenuCoordinateInGameContainer()
+                else
+                    mission.point * gameScene!!.map.tileSize -
+                        canvasState.getCanvasCoordinateInMap() + canvasState.getCanvasCoordinateInGameContainer()
 
             if (modalController.visible) {
                 // if modal is visible, add to script list

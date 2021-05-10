@@ -68,6 +68,10 @@ open class Player {
     // it's stored as dynamodb set
     var items: MutableList<String> = ArrayList()
 
+    /**
+     * This is actually a set, but enhanced ddb client can't map to java.util.LinkedHashSet by default.
+     * Caller should take care of deduplication.
+     */
     @get: ReadOnly
     var states: MutableMap<String, String> = HashMap()
 

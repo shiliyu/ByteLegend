@@ -65,6 +65,7 @@ fun toPlayer(jsonObject: dynamic) = Player().apply {
     characterId = jsonObject.characterId
     avatarUrl = jsonObject.avatarUrl
     items = JSArrayBackedList(delegate = jsonObject.items)
+    states = JSObjectBackedMap(jsonObject.states)
 }
 
 fun <T> toTypedList(jsonArray: dynamic, mapper: (dynamic) -> T): List<T> {
