@@ -15,7 +15,7 @@ import kotlinx.browser.window
 const val BEGINNER_GUIDE_FINISHED_STATE = "BeginnerGuideFinished"
 const val NEWBIE_VILLAGE_OLD_MAN_GOT_COFFEE = "OldManGotCoffee"
 const val NEWBIE_VILLAGE_NOTICEBOARD_MISSION_ID = "remember-brave-people"
-const val START_BYTELEGEND_MISSION_ID = "star-bytelegend"
+const val STAR_BYTELEGEND_MISSION_ID = "star-bytelegend"
 
 val gameRuntime = window.asDynamic().gameRuntime.unsafeCast<GameRuntime>()
 
@@ -41,8 +41,8 @@ fun GameScene.pubGuard() = objects {
 
     npc {
         val guardId = "JavaIslandNewbieVillagePubGuard"
-        val guardStartPoint = objects.getById<GameMapPoint>("JavaNewbieVilllagePubEntranceGuard-point").point
-        val guardMoveDestPoint = objects.getById<GameMapPoint>("JavaNewbieVilllagePubEntranceGuard-destination").point
+        val guardStartPoint = objects.getById<GameMapPoint>("JavaNewbieVillagePubEntranceGuard-point").point
+        val guardMoveDestPoint = objects.getById<GameMapPoint>("JavaNewbieVillagePubEntranceGuard-destination").point
         id = guardId
         sprite = "JavaIslandNewbieVillagePubGuard-sprite"
         onInit = {
@@ -53,7 +53,7 @@ fun GameScene.pubGuard() = objects {
                         speech(guardId, "DoYouPreferToBeMediocre")
                     }
                 }
-                playerMissions.missionAccomplished(START_BYTELEGEND_MISSION_ID) -> {
+                playerMissions.missionAccomplished(STAR_BYTELEGEND_MISSION_ID) -> {
                     helpers.getCharacter(guardId).gridCoordinate = guardMoveDestPoint
                 }
                 else -> {
@@ -65,7 +65,7 @@ fun GameScene.pubGuard() = objects {
         onClick = helpers.standardNpcSpeech(guardId) {
             if (helpers.getCharacter(guardId).gridCoordinate == guardStartPoint) {
                 when {
-                    !gameRuntime.heroPlayer.states.containsKey(BEGINNER_GUIDE_FINISHED_STATE) && playerMissions.missionAccomplished(START_BYTELEGEND_MISSION_ID) -> {
+                    !gameRuntime.heroPlayer.states.containsKey(BEGINNER_GUIDE_FINISHED_STATE) && playerMissions.missionAccomplished(STAR_BYTELEGEND_MISSION_ID) -> {
                         // Player star first but hasn't finished beginner guide, show them
                         scripts {
                             startBeginnerGuide()
@@ -81,7 +81,7 @@ fun GameScene.pubGuard() = objects {
                             putState(BEGINNER_GUIDE_FINISHED_STATE)
                         }
                     }
-                    playerMissions.missionAccomplished(START_BYTELEGEND_MISSION_ID) -> {
+                    playerMissions.missionAccomplished(STAR_BYTELEGEND_MISSION_ID) -> {
                         // mission accomplished, let's celebrate!
                         scripts {
                             speech(guardId, "NiceJob", arrayOf("1", "0"))
@@ -95,7 +95,7 @@ fun GameScene.pubGuard() = objects {
                             speech(
                                 guardId, "IDontKnowTakeALookAtStarBytelegend",
                                 arrayOf(
-                                    HumanReadableCoordinate(objects.getById<AbstractStaticLocationSprite>(START_BYTELEGEND_MISSION_ID).gridCoordinate).toString()
+                                    HumanReadableCoordinate(objects.getById<AbstractStaticLocationSprite>(STAR_BYTELEGEND_MISSION_ID).gridCoordinate).toString()
                                 ),
                                 arrow = false
                             )
