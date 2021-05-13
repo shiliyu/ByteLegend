@@ -87,6 +87,7 @@ class DefaultGameCanvasState(
         uiContainerSize = calculateUIContainerSize(gameContainerSize, canvasPixelSize)
         uiContainerCoordinateInGameContainer = calculateUIContainerCoordinateInGameContainer(gameContainerSize, uiContainerSize)
         eventBus.emit(GAME_UI_UPDATE_EVENT, Timestamp.now())
+        logger.debug("After resizing, canvasCoordinateInMap: ${canvasCoordinateInMap.x},${canvasCoordinateInMap.y}")
     }
 
     private fun calculateUIContainerSize(gameContainerSize: PixelSize, canvasPixelSize: PixelSize): PixelSize {
