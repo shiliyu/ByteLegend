@@ -79,6 +79,7 @@ class DefaultGameCanvasState(
     }
 
     private fun onResizeGameContainer(newContainerSize: PixelSize, initMapCenterPoint: GridCoordinate? = null) {
+        logger.debug("Resizing game container: $newContainerSize")
         canvasGridSize = calculateCanvasGridSize(newContainerSize)
         canvasPixelSize = calculateCanvasSize(canvasGridSize)
         canvasCoordinateInMap = adjustCanvasCoordinateIfNecessary(gameMap.pixelSize, tileSize, calculateCanvasCoordinateInMap(initMapCenterPoint), canvasPixelSize)
@@ -180,6 +181,8 @@ class DefaultGameCanvasState(
             expectedScrollDirection = Direction.NONE
         }
 
+        val oldCanvasCoordinateInMap = canvasCoordinateInMap
+
         if (scrollDirection == Direction.NONE) {
             if (expectedScrollDirection != Direction.NONE) {
                 // still -> scrolling
@@ -238,6 +241,14 @@ class DefaultGameCanvasState(
                     }
                 }
             }
+        }
+
+        if (logger.debugEnabled &&
+            canvasCoordinateInMap != oldCanvasCoordinateInMap &&
+            atTileBorder(gameMap.tileSize, canvasCoordinateInMap)
+        ) {
+            // Don't remove this log because it's used in browser test to locate the canvas
+            logger.debug("canvasCoordinateInMap: ${canvasCoordinateInMap.x},${canvasCoordinateInMap.y}")
         }
     }
 

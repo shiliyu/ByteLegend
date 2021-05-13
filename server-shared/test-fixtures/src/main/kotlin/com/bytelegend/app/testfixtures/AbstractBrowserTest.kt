@@ -41,6 +41,7 @@ abstract class AbstractBrowserTest {
      */
     val buildTmpDir: File
         get() = File(System.getProperty("build.tmp.dir"), javaClass.simpleName)
+
     abstract val gameServerPort: Int
 
     @BeforeEach

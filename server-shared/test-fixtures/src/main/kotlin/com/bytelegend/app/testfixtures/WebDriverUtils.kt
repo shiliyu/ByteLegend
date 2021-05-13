@@ -26,13 +26,18 @@ fun WebDriver.waitUntil(timeoutMs: Int = 5000, predicate: WebDriver.() -> Boolea
 fun waitUntil(timeoutMs: Int = 5000, predicate: () -> Boolean) {
     val start = System.currentTimeMillis()
 
+    var exception: Exception? = null
     while (System.currentTimeMillis() - start < timeoutMs) {
-        if (predicate()) {
-            return
+        try {
+            if (predicate()) {
+                return
+            }
+        } catch (e: Exception) {
+            exception = e
         }
         Thread.sleep(100)
     }
-    throw IllegalStateException("Timeout after $timeoutMs ms waiting for condition to be true!")
+    throw IllegalStateException("Timeout after $timeoutMs ms waiting for condition to be true!", exception)
 }
 
 fun WebDriver.assertNoErrorInConsoleLog() {
