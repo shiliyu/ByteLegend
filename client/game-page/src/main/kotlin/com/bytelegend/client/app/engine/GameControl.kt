@@ -5,7 +5,6 @@ import com.bytelegend.app.client.api.GameRuntime
 import com.bytelegend.app.client.api.GameSceneContainer
 import com.bytelegend.app.client.api.getAudioElementOrNull
 import com.bytelegend.app.shared.GridCoordinate
-import com.bytelegend.app.shared.objects.GameObjectRole
 import com.bytelegend.client.app.script.STAR_FLYING_CHANNEL
 import com.bytelegend.client.app.web.WebSocketClient
 import kotlinx.browser.document
@@ -71,7 +70,7 @@ class GameControl(
 //                .filter { !it.roles.contains(GameObjectRole.NPC) }
 //                .forEach { it.onClick() }
 //        } else {
-            gameObjects.forEach { it.onClick() }
+        gameObjects.forEach { it.onClick() }
 //        }
 
         if (!online) {
