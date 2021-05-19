@@ -82,7 +82,6 @@ class MapCoordinateTitleWidget : GameUIComponent<GameProps, MapCoordinateWidgetS
     override fun RBuilder.render() {
         span {
             attrs.id = "map-coordinate"
-            console.log("counter: $counter")
             if (!state.flickering || (counter / 5) % 2 == 0) {
                 attrs.classes = setOf("map-title-widget", "map-title-text", "map-coordinate")
             } else {
